@@ -1,5 +1,10 @@
+# Python variables
+name = input('What is your name? ')
+length = len(name)
+print(length)
+
 # The Python Input function
-print('Hello ' + input('What is your name? '))
+print('Hello ' + name)
 
 # String Manipulation
 print('Hello world!\nI am in a new line')
