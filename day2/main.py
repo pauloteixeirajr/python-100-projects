@@ -1,3 +1,19 @@
+# Number manipulation and F strings in Python
+# Rounding numbers
+print(round(8 / 3))  # 3
+print(round(8 / 3, 1))  # 2.7
+print(round(8 / 3, 2))  # 2.67
+
+# Floor Division (converts to int)
+print(8 // 3)  # 2
+
+# F strings
+# No need to convert the types
+score = 10
+height = 1.8
+is_winning = True
+print(f'Your score is {score}. Your height is {height}. {is_winning}')
+
 # Mathematical Operations in Python
 # When doing mathematical operations
 # python will follow the (PEMDAS) priority
