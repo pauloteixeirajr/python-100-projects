@@ -8,5 +8,13 @@ def greet(name):
     print("Isn't the weather nice today?")
 
 
-greet("Paulo")
-greet("John")
+# Functions with more than 1 input
+def greet_with(name, location):
+    print(f"Hello {name}")
+    print(f"What is it like in {location}?")
+
+
+# Positional argument
+greet_with("Paulo", "England")
+# Keyword argument
+greet_with(location="Ireland", name="John")
