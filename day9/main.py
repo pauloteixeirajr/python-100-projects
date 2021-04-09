@@ -17,3 +17,14 @@ programming_dictionary["Loop"] = "A built-in statement that allows you to repeat
 # Loop through a dictionary
 for key in programming_dictionary:
     print(programming_dictionary[key])
+
+# Nesting Lists and Dictionaries
+travel_log = {
+    "France": {
+        "cities_visited": ["Paris", "Lille", "Dijon"],
+        "number_of_visits": 12
+    },
+    "Germany": ["Berlin", "Hamburg", "Stuttgart"]
+}
+
+print(travel_log)
