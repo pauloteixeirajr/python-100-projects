@@ -1,4 +1,8 @@
 {
   "python.pythonPath": "/usr/local/bin/python3.7",
-  "python.analysis.extraPaths": ["./day14", "./day7", "./day11"]
+  "python.analysis.extraPaths": [
+    "./beginner/day14",
+    "./beginner/day7",
+    "./beginner/day11"
+  ]
 }
