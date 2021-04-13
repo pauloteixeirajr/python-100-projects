@@ -16,3 +16,8 @@ increase_friends()
 # Global scope
 # friends still 1
 print(f"friends outside function: {friends}")
+
+# Global Constants
+# Naming convention is to turn to uppercase
+PI = 3.14159
+URL = "https://www.google.com"
