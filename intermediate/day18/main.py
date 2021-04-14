@@ -27,8 +27,8 @@ timmy.shape("turtle")
 # Generate a random walk
 directions = [0, 90, 180, 270]
 
-timmy.pensize(10)
-timmy.speed("fast")
+# timmy.pensize(10)
+timmy.speed("fastest")
 colormode(255)
 
 
@@ -42,10 +42,20 @@ def random_color():
     return (R, G, B)
 
 
-for _ in range(500):
-    timmy.color(random_color())
-    timmy.forward(50)
-    timmy.setheading(random.choice(directions))
+# for _ in range(500):
+#     timmy.color(random_color())
+#     timmy.forward(50)
+#     timmy.setheading(random.choice(directions))
+
+# Draw a spirograph
+def draw_spirograph(size):
+    for i in range(int(360 / size)):
+        timmy.color(random_color())
+        timmy.circle(100)
+        timmy.setheading(timmy.heading() + size)
+
+
+draw_spirograph(5)
 
 screen = Screen()
 screen.exitonclick()
