@@ -1,4 +1,5 @@
 # Turtle Graphics, Tuples and Importing Modules
+import random
 from turtle import Turtle, Screen
 
 timmy = Turtle()
@@ -20,13 +21,24 @@ colors = [
     "DeepSkyBlue", "LightSeaGreen", "wheat", "SlateGray", "SeaGreen"
 ]
 
-# Drawing Different Shapes
-for i in range(3, 11):
-    angle = 360 / i
-    timmy.color(colors[i - 3])
-    for _ in range(i):
-        timmy.forward(100)
-        timmy.right(angle)
+# # Drawing Different Shapes
+# for i in range(3, 11):
+#     angle = 360 / i
+#     timmy.color(colors[i - 3])
+#     for _ in range(i):
+#         timmy.forward(100)
+#         timmy.right(angle)
+
+# Generate a random walk
+directions = [0, 90, 180, 270]
+
+timmy.pensize(10)
+timmy.speed("fast")
+
+for _ in range(500):
+    timmy.color(random.choice(colors))
+    timmy.forward(30)
+    timmy.setheading(random.choice(directions))
 
 screen = Screen()
 screen.exitonclick()
