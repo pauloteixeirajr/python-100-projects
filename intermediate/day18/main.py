@@ -1,6 +1,6 @@
 # Turtle Graphics, Tuples and Importing Modules
 import random
-from turtle import Turtle, Screen
+from turtle import Turtle, Screen, colormode
 
 timmy = Turtle()
 timmy.shape("turtle")
@@ -16,11 +16,6 @@ timmy.shape("turtle")
 #     timmy.forward(5)
 #     timmy.pendown()
 
-colors = [
-    "CornflowerBlue", "DarkOrchid", "IndianRed",
-    "DeepSkyBlue", "LightSeaGreen", "wheat", "SlateGray", "SeaGreen"
-]
-
 # # Drawing Different Shapes
 # for i in range(3, 11):
 #     angle = 360 / i
@@ -34,10 +29,22 @@ directions = [0, 90, 180, 270]
 
 timmy.pensize(10)
 timmy.speed("fast")
+colormode(255)
+
+
+def random_color():
+    """ Returns a random RGB color """
+
+    R = random.randint(0, 255)
+    G = random.randint(0, 255)
+    B = random.randint(0, 255)
+
+    return (R, G, B)
+
 
 for _ in range(500):
-    timmy.color(random.choice(colors))
-    timmy.forward(30)
+    timmy.color(random_color())
+    timmy.forward(50)
     timmy.setheading(random.choice(directions))
 
 screen = Screen()
