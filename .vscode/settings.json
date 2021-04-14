@@ -3,6 +3,7 @@
   "python.analysis.extraPaths": [
     "./beginner/day14",
     "./beginner/day7",
-    "./beginner/day11"
+    "./beginner/day11",
+    "./intermediate/day16"
   ]
 }
