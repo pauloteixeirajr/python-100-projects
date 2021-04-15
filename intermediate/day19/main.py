@@ -1,39 +1,20 @@
-# High Order Functions and Event listeners
+# Building a turtle race
 from turtle import Turtle, Screen
 
-tim = Turtle()
+
 screen = Screen()
+screen.setup(width=500, height=400)
+user_bet = screen.textinput(
+    title="Make your bet",
+    prompt="Which turtle will win the race? Enter a color: ")
 
-# Make an Etch-A-Sketch App
+colors = ["red", "orange", "yellow", "green", "blue", "purple"]
+y_positions = [-70, -40, -10, 20, 50, 80]
 
+for i in range(0, len(colors)):
+    turtle = Turtle(shape="turtle")
+    turtle.penup()
+    turtle.goto(x=-230, y=y_positions[i])
+    turtle.color(colors[i])
 
-def move_forwards():
-    tim.forward(10)
-
-
-def move_backwards():
-    tim.backward(10)
-
-
-def turn_left():
-    tim.left(10)
-
-
-def turn_right():
-    tim.right(10)
-
-
-def clear():
-    tim.clear()
-    tim.penup()
-    tim.home()
-    tim.pendown()
-
-
-screen.listen()
-screen.onkey(key="w", fun=move_forwards)
-screen.onkey(key="s", fun=move_backwards)
-screen.onkey(key="a", fun=turn_left)
-screen.onkey(key="d", fun=turn_right)
-screen.onkey(key="c", fun=clear)
 screen.exitonclick()
