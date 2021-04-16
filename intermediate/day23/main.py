@@ -22,6 +22,14 @@ while game_is_on:
     car_mananger.create_car()
     car_mananger.move_cars()
 
+    # Detect collision with car
+    for car in car_mananger.all_cars:
+        if car.distance(player) < 20:
+            game_is_on = False
+
     # Check if player has reached the finish line
     if player.has_reached_finish():
         player.level_up()
+
+
+screen.exitonclick()
