@@ -1,4 +1,4 @@
-from turtle import Turtle, width
+from turtle import Turtle
 from typing import List
 
 STARTING_POSITIONS = [(0, 0), (-20, 0), (-40, 0)]
