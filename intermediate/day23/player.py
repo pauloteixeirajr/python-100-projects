@@ -11,14 +11,12 @@ class Player(Turtle):
         super().__init__(shape="turtle")
         self.penup()
         self.setheading(90)
-        self.goto(STARTING_POSITION)
-        self.level = 1
+        self.go_to_start()
 
     def move_up(self):
         self.forward(MOVE_DISTANCE)
 
-    def level_up(self):
-        self.level += 1
+    def go_to_start(self):
         self.goto(STARTING_POSITION)
 
     def has_reached_finish(self):
