@@ -1,5 +1,6 @@
 from tkinter import *
 import math
+
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -10,12 +11,21 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
+timer = None
+
 
 # ---------------------------- TIMER RESET ------------------------------- #
+def reset_timer():
+    global reps
+    reps = 0
+
+    window.after_cancel(timer)
+    title_lbl.config(text="Timer")
+    canvas.itemconfig(timer_text, text="00:00")
+    checkmark.config(text="")
+
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
-
-
 def start_timer():
     global reps
     reps += 1
@@ -33,9 +43,9 @@ def start_timer():
     else:
         count_down(work_sec)
         title_lbl.config(text="Work", fg=GREEN)
+
+
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
-
-
 def count_down(count):
     min = math.floor(count / 60)
     sec = count % 60
@@ -48,9 +58,15 @@ def count_down(count):
 
     canvas.itemconfig(timer_text, text=f"{min}:{sec}")
     if count > 0:
-        window.after(1000, count_down, count - 1)
+        global timer
+        timer = window.after(1000, count_down, count - 1)
     else:
         start_timer()
+        marks = ""
+        for _ in range(int(math.floor(reps/2))):
+            marks += "✔"
+
+        checkmark.config(text=marks)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -73,10 +89,10 @@ canvas.grid(row=1, column=1)
 start_btn = Button(text="Start", highlightthickness=0, command=start_timer)
 start_btn.grid(row=2, column=0)
 
-reset_btn = Button(text="Reset", highlightthickness=0)
+reset_btn = Button(text="Reset", highlightthickness=0, command=reset_timer)
 reset_btn.grid(row=2, column=2)
 
-checkmark = Label(text="✔", fg=GREEN, bg=YELLOW)
+checkmark = Label(fg=GREEN, bg=YELLOW)
 checkmark.grid(row=3, column=1)
 
 # Keep the screen open
