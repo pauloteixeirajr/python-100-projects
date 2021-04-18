@@ -5,12 +5,12 @@
     "./beginner/day7",
     "./beginner/day11",
     "./intermediate/day16",
+    "./intermediate+/day34",
     "./intermediate/day17",
     "./intermediate/day24/snake-improved",
     "./intermediate/day23",
     "./intermediate/day22",
     "./intermediate/day21",
-    "./intermediate/day20",
-    "./intermediate+/day34"
+    "./intermediate/day20"
   ]
 }
