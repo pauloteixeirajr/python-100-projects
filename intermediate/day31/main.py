@@ -7,13 +7,25 @@ TITLE_FONT = ("Arial", 40, "italic")
 WORD_FONT = ("Arial", 60, "bold")
 WORDS_DF = pandas.read_csv("./data/french_words.csv")
 WORDS_LIST = WORDS_DF.to_dict(orient="records")
+FLIP_TIMER = None
 
 
 # Get Random French Word
 def next_card():
+    global FLIP_TIMER
+    if FLIP_TIMER:
+        window.after_cancel(FLIP_TIMER)
     random_card = random.choice(WORDS_LIST)
-    canvas.itemconfig(title_text, text="French")
-    canvas.itemconfig(word_text, text=random_card["French"])
+    canvas.itemconfig(canvas_img, image=card_front_img)
+    canvas.itemconfig(title_text, text="French", fill="black")
+    canvas.itemconfig(word_text, text=random_card["French"], fill="black")
+    FLIP_TIMER = window.after(3000, flip_card, random_card)
+
+
+def flip_card(random_card):
+    canvas.itemconfig(canvas_img, image=card_back_img)
+    canvas.itemconfig(title_text, text="English", fill="white")
+    canvas.itemconfig(word_text, text=random_card["English"], fill="white")
 
 
 window = Tk()
@@ -23,7 +35,8 @@ window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 canvas = Canvas(width=800, height=526)
 canvas.config(bg=BACKGROUND_COLOR, highlightthickness=0)
 card_front_img = PhotoImage(file="./images/card_front.png")
-canvas.create_image(400, 263, image=card_front_img)
+card_back_img = PhotoImage(file="./images/card_back.png")
+canvas_img = canvas.create_image(400, 263)
 title_text = canvas.create_text(400, 150, text="", font=TITLE_FONT)
 word_text = canvas.create_text(400, 263, text="", font=WORD_FONT)
 
