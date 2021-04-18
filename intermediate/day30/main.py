@@ -1,3 +1,4 @@
+import json
 import pyperclip
 from random import choice, randint, shuffle
 from tkinter import *
@@ -33,6 +34,12 @@ def save():
     website = website_entry.get()
     email = email_entry.get()
     password = password_entry.get()
+    new_data = {
+        website: {
+            "email": email,
+            "password": password
+        }
+    }
 
     if len(website) == 0 or len(password) == 0:
         messagebox.showwarning(
@@ -41,20 +48,16 @@ def save():
         )
         return
 
-    is_ok = messagebox.askokcancel(
-        title=website,
-        message=f"""These are the details entered: 
-        Email: {email}
-        Password: {password}
+    with open("data.json", mode="r") as data_file:
+        # Read the data
+        data = json.load(data_file)
 
-        Is it okay to save?"""
-    )
+        # Update the data
+        data.update(new_data)
 
-    if not is_ok:
-        return
-
-    with open("data.txt", mode="a") as data:
-        data.write(f"{website} | {email} | {password}\n")
+    with open("data.json", mode="w") as data_file:
+        # Writing json data
+        json.dump(data, data_file, indent=2)
 
     website_entry.delete(0, END)
     password_entry.delete(0, END)
