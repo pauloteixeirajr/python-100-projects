@@ -66,6 +66,27 @@ def save():
     password_entry.delete(0, END)
 
 
+# ---------------------------- SEARCH MECHANISM ------------------------------- #
+def find_password():
+    website = website_entry.get()
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(message="No data file found")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(
+                message=f"{website}\nEmail: {email}\nPassword: {password}"
+            )
+            pyperclip.copy(password)
+        else:
+            messagebox.showinfo(
+                message=f"No details for the {website} exists.")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -79,9 +100,12 @@ canvas.grid(row=0, column=1)
 website_lbl = Label(text="Website: ")
 website_lbl.grid(row=1, column=0)
 
-website_entry = Entry(width=35)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry = Entry(width=21)
+website_entry.grid(row=1, column=1)
 website_entry.focus()
+
+search_btn = Button(text="Search", width=13, command=find_password)
+search_btn.grid(row=1, column=2)
 
 email_lbl = Label(text="Email/Username: ")
 email_lbl.grid(row=2, column=0)
