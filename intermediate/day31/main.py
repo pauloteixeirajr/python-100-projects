@@ -5,27 +5,38 @@ from tkinter import *
 BACKGROUND_COLOR = "#B1DDC6"
 TITLE_FONT = ("Arial", 40, "italic")
 WORD_FONT = ("Arial", 60, "bold")
-WORDS_DF = pandas.read_csv("./data/french_words.csv")
+try:
+    WORDS_DF = pandas.read_csv("./data/words_to_learn.csv")
+except FileNotFoundError:
+    WORDS_DF = pandas.read_csv("./data/french_words.csv")
 WORDS_LIST = WORDS_DF.to_dict(orient="records")
+CURRENT_CARD = None
 FLIP_TIMER = None
 
 
 # Get Random French Word
 def next_card():
-    global FLIP_TIMER
+    global CURRENT_CARD, FLIP_TIMER
     if FLIP_TIMER:
         window.after_cancel(FLIP_TIMER)
-    random_card = random.choice(WORDS_LIST)
+    CURRENT_CARD = random.choice(WORDS_LIST)
     canvas.itemconfig(canvas_img, image=card_front_img)
     canvas.itemconfig(title_text, text="French", fill="black")
-    canvas.itemconfig(word_text, text=random_card["French"], fill="black")
-    FLIP_TIMER = window.after(3000, flip_card, random_card)
+    canvas.itemconfig(word_text, text=CURRENT_CARD["French"], fill="black")
+    FLIP_TIMER = window.after(3000, flip_card)
 
 
-def flip_card(random_card):
+def flip_card():
     canvas.itemconfig(canvas_img, image=card_back_img)
     canvas.itemconfig(title_text, text="English", fill="white")
-    canvas.itemconfig(word_text, text=random_card["English"], fill="white")
+    canvas.itemconfig(word_text, text=CURRENT_CARD["English"], fill="white")
+
+
+def is_known():
+    WORDS_LIST.remove(CURRENT_CARD)
+    data = pandas.DataFrame(WORDS_LIST)
+    data.to_csv("./data/words_to_learn.csv", index=False)
+    next_card()
 
 
 window = Tk()
@@ -53,7 +64,7 @@ right_image = PhotoImage(file="./images/right.png")
 right_button = Button(
     image=right_image,
     highlightthickness=0,
-    command=next_card)
+    command=is_known)
 right_button.grid(row=1, column=1)
 
 next_card()
