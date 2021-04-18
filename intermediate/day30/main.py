@@ -48,16 +48,19 @@ def save():
         )
         return
 
-    with open("data.json", mode="r") as data_file:
-        # Read the data
-        data = json.load(data_file)
-
+    try:
+        with open("data.json", mode="r") as data_file:
+            # Read the data
+            data = json.load(data_file)
+    except FileNotFoundError:
+        data = new_data
+    else:
         # Update the data
         data.update(new_data)
-
-    with open("data.json", mode="w") as data_file:
-        # Writing json data
-        json.dump(data, data_file, indent=2)
+    finally:
+        with open("data.json", mode="w") as data_file:
+            # Writing json data
+            json.dump(data, data_file, indent=2)
 
     website_entry.delete(0, END)
     password_entry.delete(0, END)
