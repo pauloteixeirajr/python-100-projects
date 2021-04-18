@@ -26,7 +26,7 @@ class QuizInterface:
         self.canvas.grid(row=1, column=0, columnspan=2, pady=50)
 
         # Labels
-        self.score_lbl = Label(text="Score: 0", bg=THEME_COLOR, fg="white")
+        self.score_lbl = Label(text="Score: 0/0", bg=THEME_COLOR, fg="white")
         self.score_lbl.grid(row=0, column=1)
 
         # Buttons
@@ -45,11 +45,31 @@ class QuizInterface:
         self.window.mainloop()
 
     def get_next_question(self):
-        question = self.quiz.next_question()
-        self.canvas.itemconfig(self.question_text, text=question)
+        self.canvas.config(bg="white")
+        self.score_lbl.config(text=f"Score: {self.quiz.score}")
+        if self.quiz.still_has_questions():
+            question = self.quiz.next_question()
+            self.canvas.itemconfig(self.question_text, text=question)
+        else:
+            self.canvas.itemconfig(
+                self.question_text,
+                text="You've reached the end of the quiz."
+            )
+            self.true_btn.config(state="disabled")
+            self.false_btn.config(state="disabled")
 
     def answer_true(self):
-        self.quiz.check_answer("True")
+        is_right = self.quiz.check_answer("True")
+        self.give_feedback(is_right)
 
     def answer_false(self):
-        self.quiz.check_answer("False")
+        is_right = self.quiz.check_answer("False")
+        self.give_feedback(is_right)
+
+    def give_feedback(self, is_right: bool):
+        if is_right:
+            self.canvas.config(bg="green")
+        else:
+            self.canvas.config(bg="red")
+
+        self.window.after(1000, self.get_next_question)
