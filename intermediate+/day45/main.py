@@ -1,6 +1,27 @@
-from os import name
+import requests
 from bs4 import BeautifulSoup
 
+# Scraping A live website
+response = requests.get("https://news.ycombinator.com/news")
+markup = response.text
+
+soup = BeautifulSoup(markup, "html.parser")
+articles = soup.select(".storylink")
+upvotes = soup.select(".score")
+article_texts = []
+article_links = []
+
+for article in articles:
+    article_texts.append(article.getText())
+    article_links.append(article.get("href"))
+
+article_upvotes = [int(score.getText().split(" ")[0]) for score in upvotes]
+
+print(article_texts)
+print(article_links)
+print(article_upvotes)
+
+# Reading local files
 with open('website.html') as html:
     markup = html.read()
 
