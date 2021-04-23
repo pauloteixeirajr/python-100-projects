@@ -1,4 +1,5 @@
 from flask import Flask
+from my_dec import make_bold, make_emphasis, make_underline
 
 app = Flask(__name__)
 
@@ -6,6 +7,14 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     return "<h1>Hello, World!</h1>"
+
+
+@app.route("/bye")
+@make_bold
+@make_emphasis
+@make_underline
+def bye():
+    return "Bye!"
 
 
 @app.route("/<name>/<int:number>")
