@@ -39,8 +39,9 @@ def guess(name: str):
     )
 
 
-@app.route("/blog")
-def blog():
+@app.route("/blog/<int:num>")
+def blog(num):
+    print(num)
     response = requests.get(blog_posts_url)
     posts = response.json()
     return render_template("blog.html", posts=posts)
