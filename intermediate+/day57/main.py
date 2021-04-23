@@ -5,6 +5,7 @@ from flask import Flask, render_template
 
 agify_url = "https://api.agify.io"
 genderize_url = "https://api.genderize.io"
+blog_posts_url = "https://api.npoint.io/5abcca6f4e39b4955965"
 
 
 def get_age_and_gender(name: str):
@@ -36,6 +37,13 @@ def guess(name: str):
         age=age,
         gender=gender
     )
+
+
+@app.route("/blog")
+def blog():
+    response = requests.get(blog_posts_url)
+    posts = response.json()
+    return render_template("blog.html", posts=posts)
 
 
 if __name__ == "__main__":
