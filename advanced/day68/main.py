@@ -37,14 +37,20 @@ def home():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        email = request.form.get("email")
+        name = request.form.get("name")
+        if User.query.filter_by(email=email).first():
+            flash("You've already signed up with that email. Log in")
+            return redirect(url_for("login"))
+
         password = generate_password_hash(
             request.form.get("password"),
             method="pbkdf2:sha256",
             salt_length=8
         )
         user = User(
-            email=request.form.get("email"),
-            name=request.form.get("name"),
+            email=email,
+            name=name,
             password=password
         )
         db.session.add(user)
@@ -60,9 +66,13 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
         user = User.query.filter_by(email=email).first()
-        if check_password_hash(user.password, password):
+        if not user:
+            flash("Invalid Credentials. Try again!")
+        elif user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for("secrets"))
+        else:
+            flash("Invalid Credentials. Try again!")
     return render_template("login.html")
 
 
