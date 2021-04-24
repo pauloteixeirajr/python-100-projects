@@ -1,5 +1,6 @@
-from flask import Flask, jsonify, render_template, request
+import random
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
@@ -23,6 +24,9 @@ class Cafe(db.Model):
     can_take_calls = db.Column(db.Boolean, nullable=False)
     coffee_price = db.Column(db.String(250), nullable=True)
 
+    def to_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+
 
 @app.route("/")
 def home():
@@ -30,6 +34,32 @@ def home():
 
 
 # HTTP GET - Read Record
+@app.route("/random")
+def get_cafe():
+    cafes = db.session.query(Cafe).all()
+    random_cafe = random.choice(cafes)
+
+    return jsonify(cafe=random_cafe.to_dict())
+
+
+@app.route("/all")
+def get_all_cafes():
+    cafes = db.session.query(Cafe).all()
+
+    return jsonify(cafes=[cafe.to_dict() for cafe in cafes])
+
+
+@app.route("/search")
+def search_cafe():
+    location = request.args.get("location").title()
+    cafes = Cafe.query.filter_by(location=location).all()
+
+    if not cafes:
+        return jsonify(error={
+            "Not Found": f"Sorry, we don't have a cafe at {location}"
+        })
+
+    return jsonify(cafes=[cafe.to_dict() for cafe in cafes])
 
 # HTTP POST - Create Record
 
